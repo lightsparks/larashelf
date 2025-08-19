@@ -2,6 +2,16 @@
 import { onMounted, computed, ref } from "vue";
 import { me, logout } from "../stores/auth";
 import CmsShell from "../components/CmsShell.vue";
+import { adminPing } from '../stores/auth';
+
+onMounted(async () => {
+    try {
+        const { data } = await adminPing();
+        console.log('Admin ping:', data); // admin → { ok: true }
+    } catch (e: any) {
+        console.error('Admin ping failed', e?.response?.status, e?.response?.data); // non-admin → 403
+    }
+});
 
 const user = ref<any>(null);
 const loading = ref(true);

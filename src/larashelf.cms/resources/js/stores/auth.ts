@@ -19,6 +19,10 @@ export async function me() {
     return http.get("/api/me");
 }
 
+export async function adminPing() {
+    return http.get('/api/admin/ping');
+}
+
 export async function logout() {
     await http.post("/logout");
 }
