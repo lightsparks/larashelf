@@ -1,12 +1,25 @@
-import axios from 'axios';
+import axios from "axios";
 
-const api = axios.create({
-    baseURL: import.meta.env.VITE_API_BASE_URL ?? 'http://127.0.0.1:8001',
+function getCookie(name: string): string | null {
+    const m = document.cookie.match(new RegExp("(^|;\\s*)" + name + "=([^;]*)"));
+    return m ? decodeURIComponent(m[2]) : null;
+}
+
+const http = axios.create({
+    baseURL: import.meta.env.VITE_API_BASE_URL, // http://127.0.0.1:8001
     withCredentials: true,
 });
 
-export async function ensureCsrfCookie() {
-    await api.get('/sanctum/csrf-cookie');
-}
+http.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
+http.defaults.xsrfCookieName = "XSRF-TOKEN";
+http.defaults.xsrfHeaderName = "X-XSRF-TOKEN";
 
-export default api;
+http.interceptors.request.use((config) => {
+    const token = getCookie("XSRF-TOKEN");
+    if (token) {
+        (config.headers ||= {})["X-XSRF-TOKEN"] = token;
+    }
+    return config;
+});
+
+export default http;

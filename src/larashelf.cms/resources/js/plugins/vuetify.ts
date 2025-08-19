@@ -1,8 +1,24 @@
 import 'vuetify/styles';
-import '@mdi/font/css/materialdesignicons.css';
 import { createVuetify } from 'vuetify';
-import { aliases, mdi } from 'vuetify/iconsets/mdi';
 
+const vuetify = createVuetify({});
 export default createVuetify({
-    icons: { defaultSet: 'mdi', aliases, sets: { mdi } },
-});
+    theme: {
+        defaultTheme: 'light',
+        themes: {
+            light: {
+                dark: false,
+                colors: {
+                    primary: '#1976d2',
+                },
+            },
+            dark: {
+                dark: true,
+                colors: {
+                    primary: '#0D47A1',
+                    background: '#121212',
+                },
+            },
+        },
+    },
+})
