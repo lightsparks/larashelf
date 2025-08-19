@@ -8,7 +8,6 @@ it('allows admin to hit /api/admin/ping', function () {
         'password' => bcrypt('password'),
     ]);
 
-
     $this->actingAs($admin)
          ->getJson('/api/admin/ping')
          ->assertOk()
