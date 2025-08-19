@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class AdminUserSeeder extends Seeder
 {
@@ -18,11 +19,17 @@ class AdminUserSeeder extends Seeder
             return;
         }
 
-        $user = User::updateOrCreate(['email' => $email], [
-            'first_name' => env('ADMIN_FIRST_NAME'),
-            'last_name'  => env('ADMIN_LAST_NAME'),
-            'username'   => env('ADMIN_USERNAME'),
-            'password'   => $password,
-        ]);
+        $user = User::updateOrCreate(
+            ['email' => $email],
+            [
+                'first_name' => env('ADMIN_FIRST_NAME'),
+                'last_name'  => env('ADMIN_LAST_NAME'),
+                'username'   => env('ADMIN_USERNAME'),
+                'password'   => Hash::make($password),
+                'is_admin'   => true,
+            ]
+        );
+
+        $this->command?->info("Admin user seeded.");
     }
 }
