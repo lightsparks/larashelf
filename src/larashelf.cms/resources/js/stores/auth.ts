@@ -8,11 +8,7 @@ export async function getCsrf() {
 export async function login(identifier: string, password: string) {
     await getCsrf();
 
-    // Debug headers we send:
-    console.debug("XSRF header", (http.defaults as any).xsrfHeaderName);
-
-    const resp = await http.post("/login", { email: identifier, password });
-    console.debug("login status", resp.status);
+    return http.post("/login", { identifier, password });
 }
 
 export async function me() {
