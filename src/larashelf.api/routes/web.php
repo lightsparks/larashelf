@@ -24,3 +24,8 @@ Route::post('/logout', function (Request $request) {
 });
 
 Route::middleware('auth:sanctum')->get('/user', fn(Request $r) => $r->user());
+
+Route::get('/ping', fn() => 'pong');
+Route::get('/session-check', function () {
+    return ['auth' => Auth::check()];
+});

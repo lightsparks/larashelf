@@ -21,12 +21,11 @@ Route::post('/login', function (Request $request) {
     // prevent session fixation
     $request->session()->regenerate();
 
-    // include user so the SPA doesn’t need an extra request (optional)
     return response()->json([ 'user' => $request->user() ], 200);
 })->middleware('guest')->name('api.login');
 
 // CURRENT USER (requires session-authenticated request)
-Route::middleware('auth:sanctum')->get('/user', fn(Request $r) => $r->user())
+Route::middleware('auth:sanctum')->get('/me', fn(Request $r) => $r->user())
      ->name('api.user');
 
 // LOGOUT (invalidate session + rotate CSRF token)
