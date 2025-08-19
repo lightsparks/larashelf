@@ -8,21 +8,21 @@ it('logs in with valid credentials and returns me, then logs out', function () {
         'password' => Hash::make('secret123'),
     ]);
 
-    // Login (session guard)
+    // Login
     $this->postJson('/api/login', [
         'email' => $user->email,
         'password' => 'secret123',
     ])->assertOk()
          ->assertJsonPath('user.email', $user->email);
 
-    // Me (session persists automatically in tests)
+    // Me
     $this->getJson('/api/me')
          ->assertOk()
          ->assertJsonPath('email', $user->email);
 
-    // Logout (invalidates session)
+    // Logout
     $this->postJson('/api/logout')->assertNoContent();
 
-    // Me after logout => 401
+    // Me after logout
     $this->getJson('/api/me')->assertUnauthorized();
 });
